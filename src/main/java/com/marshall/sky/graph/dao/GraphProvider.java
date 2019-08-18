@@ -3,7 +3,10 @@ package com.marshall.sky.graph.dao;
 import com.marshall.sky.graph.constant.SQLConstant;
 import com.marshall.sky.graph.model.RelationDTO;
 import com.marshall.sky.graph.util.CheckNullUtil;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import org.springframework.lang.NonNull;
 
 /**
  * @author : livE
@@ -11,29 +14,13 @@ import java.util.Collection;
 public class GraphProvider extends SQLConstant {
 
 
-  public static String insert(RelationDTO dto, String tableName) {
-    StringBuilder sql = new StringBuilder();
-    sql.append(INSERT_INTO)
-        .append(getTableName(tableName))
-        .append(INSERT_COLUMN)
-        .append(VALUES)
-        .append("(")
-        .append(dto.getLeftId())
-        .append(", ")
-        .append(dto.getRightId())
-        .append(", ")
-        .append(System.currentTimeMillis())
-        .append(", ")
-        .append("1")
-        .append(", ")
-        .append("'{}'")
-        .append(") ")
-        .append(ON_DUPLICATE_KEY_UPDATE)
-        .append("state = 1");
-    return sql.toString();
+  protected static String insert(RelationDTO dto, String tableName) {
+    List<RelationDTO> relationDTOS = new ArrayList<>();
+    relationDTOS.add(dto);
+    return batchInsert(relationDTOS, tableName);
   }
 
-  public static String remove(RelationDTO dto, String tableName) {
+  protected static String remove(RelationDTO dto, String tableName) {
     StringBuilder sql = new StringBuilder();
     sql.append(UPDATE)
         .append(getTableName(tableName))
@@ -48,11 +35,8 @@ public class GraphProvider extends SQLConstant {
     return sql.toString();
   }
 
-  public static String batchInsert(Collection<RelationDTO> relationDTOCollection,
+  protected static String batchInsert(Collection<RelationDTO> relationDTOCollection,
       String tableName) {
-    if (relationDTOCollection == null || relationDTOCollection.size() == 0) {
-      return null;
-    }
     int insertSize = 0;
     StringBuilder sql = new StringBuilder();
     sql.append(INSERT_INTO)
@@ -88,11 +72,8 @@ public class GraphProvider extends SQLConstant {
     return sql.toString();
   }
 
-  public static String batchRemove(Collection<RelationDTO> relationDTOCollection,
+  protected static String batchRemove(Collection<RelationDTO> relationDTOCollection,
       String tableName) {
-    if (relationDTOCollection == null || relationDTOCollection.size() == 0) {
-      return null;
-    }
     int whereSize = 0;
     StringBuilder sql = new StringBuilder();
     sql.append(UPDATE)
@@ -125,8 +106,68 @@ public class GraphProvider extends SQLConstant {
     return sql.toString();
   }
 
+  protected static String listByLeftId(long leftId, String tableName, int page, int count) {
+    StringBuilder sql = buildSelectSQL(tableName);
+
+    sql.append(WHERE)
+        .append(" left_id = ")
+        .append(leftId)
+        .append(LIMIT)
+        .append(getLimit(page, count));
+
+    return sql.toString();
+  }
+
+  protected static String listByLeftIdAndRightIds(Long leftId, String tableName,
+      Collection<Long> rightIds, Integer page,
+      Integer count) {
+    if (rightIds == null || rightIds.size() == 0) {
+      return listByLeftId(leftId, tableName, page, count);
+    }
+
+    StringBuilder sql = buildSelectSQL(tableName);
+    sql.append(WHERE)
+        .append(" left_id = ")
+        .append(leftId)
+        .append(AND)
+        .append(" right_id IN ")
+        .append(getInSQL(rightIds))
+        .append(LIMIT)
+        .append(getLimit(page, count));
+
+    return sql.toString();
+  }
+
+  private static StringBuilder buildSelectSQL(String tableName) {
+    return new StringBuilder().append(SELECT).append(QUERY_COLUMN).append(FROM)
+        .append(getTableName(tableName));
+  }
+
+  private static String getInSQL(@NonNull Collection<Long> ids) {
+    StringBuilder sql = new StringBuilder();
+    sql.append(" ( ");
+    int idCount = 0;
+
+    for (Long id : ids) {
+      if (idCount > 0) {
+        sql.append(" , ");
+      }
+      sql.append(id);
+      idCount++;
+    }
+
+    sql.append(" ) ");
+    return sql.toString();
+  }
+
+
   private static String getTableName(String tableName) {
     return tableName + TABLE_SUFFIX;
+  }
+
+  private static String getLimit(int page, int count) {
+    int limit = page * count;
+    return limit + " , " + count;
   }
 
 }

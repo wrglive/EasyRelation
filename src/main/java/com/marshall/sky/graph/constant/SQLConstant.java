@@ -20,4 +20,12 @@ public class SQLConstant {
 
   protected static final String AND = " and ";
 
+  protected static final String SELECT = " select ";
+
+  protected static final String FROM = " from ";
+
+  protected static final String QUERY_COLUMN = "left_id, right_id, create_time, state, ext_params, update_time";
+
+  protected static final String LIMIT = " limit ";
+
 }

@@ -1,21 +1,25 @@
 package com.marshall.sky.graph.dao;
 
 import com.marshall.sky.graph.dao.mapper.RelationMapper;
+import com.marshall.sky.graph.model.Relation;
 import com.marshall.sky.graph.model.RelationDTO;
 import com.marshall.sky.graph.util.CheckNullUtil;
+import com.marshall.sky.graph.util.DefaultPageUtil;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
 public class MySqlGraphDaoImpl implements MySqlGraphDao {
+
+  private String tableName;
 
   @Autowired
   RelationMapper relationMapper;
 
   @Override
-  public boolean insert(String tableName, RelationDTO relationDTO) {
+  public boolean insert(RelationDTO relationDTO) {
     if (CheckNullUtil.hasNull(relationDTO)) {
       return false;
     }
@@ -28,7 +32,7 @@ public class MySqlGraphDaoImpl implements MySqlGraphDao {
   }
 
   @Override
-  public boolean remove(String tableName, RelationDTO relationDTO) {
+  public boolean remove(RelationDTO relationDTO) {
     if (CheckNullUtil.hasNull(relationDTO)) {
       return false;
     }
@@ -41,7 +45,7 @@ public class MySqlGraphDaoImpl implements MySqlGraphDao {
   }
 
   @Override
-  public boolean batchInsert(String tableName, Collection<RelationDTO> relationDTOCollection) {
+  public boolean batchInsert(Collection<RelationDTO> relationDTOCollection) {
     if (relationDTOCollection == null || relationDTOCollection.size() == 0) {
       return false;
     }
@@ -54,7 +58,7 @@ public class MySqlGraphDaoImpl implements MySqlGraphDao {
   }
 
   @Override
-  public boolean batchRemove(String tableName, Collection<RelationDTO> relationDTOCollection) {
+  public boolean batchRemove(Collection<RelationDTO> relationDTOCollection) {
     if (relationDTOCollection == null || relationDTOCollection.size() == 0) {
       return false;
     }
@@ -67,4 +71,38 @@ public class MySqlGraphDaoImpl implements MySqlGraphDao {
     return relationMapper.remove(sql) > 0;
   }
 
+  @Override
+  public List<Relation> listByLeftId(Long leftId, Integer page, Integer count) {
+    if (leftId == null) {
+      return new ArrayList<>();
+    }
+
+    page = DefaultPageUtil.getPageOrDefault(page);
+    count = DefaultPageUtil.getCountOrDefault(count);
+    String sql = GraphProvider.listByLeftId(leftId, tableName, page, count);
+    System.out.println(sql);
+
+    return relationMapper.select(sql);
+  }
+
+  @Override
+  public List<Relation> listByLeftIdAndRightIds(Long leftId,
+      Collection<Long> rightIds, Integer page,
+      Integer count) {
+    if (leftId == null) {
+      return new ArrayList<>();
+    }
+    if (rightIds == null || rightIds.size() == 0) {
+      return listByLeftId(leftId, page, count);
+    }
+    page = DefaultPageUtil.getPageOrDefault(page);
+    count = DefaultPageUtil.getCountOrDefault(count);
+    String sql = GraphProvider.listByLeftIdAndRightIds(leftId, tableName, rightIds, page, count);
+    System.out.println(sql);
+    return relationMapper.select(sql);
+  }
+
+  public void setTableName(String tableName) {
+    this.tableName = tableName;
+  }
 }

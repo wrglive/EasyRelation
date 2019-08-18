@@ -12,7 +12,7 @@ public class Relation {
 
   private Date updateTime;
 
-  private Boolean state;
+  private Integer state;
 
   private String extParams;
 
@@ -48,11 +48,11 @@ public class Relation {
     this.updateTime = updateTime;
   }
 
-  public Boolean getState() {
+  public Integer getState() {
     return state;
   }
 
-  public void setState(Boolean state) {
+  public void setState(Integer state) {
     this.state = state;
   }
 
