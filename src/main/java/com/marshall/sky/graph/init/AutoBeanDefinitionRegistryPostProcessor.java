@@ -1,7 +1,7 @@
 package com.marshall.sky.graph.init;
 
 import com.alibaba.fastjson.JSONObject;
-import com.marshall.sky.graph.dao.MySqlGraphDaoImpl;
+import com.marshall.sky.graph.dao.GraphDaoImpl;
 import com.marshall.sky.graph.util.StringUtils3;
 import java.io.InputStream;
 import java.util.List;
@@ -27,7 +27,7 @@ public class AutoBeanDefinitionRegistryPostProcessor implements
     Properties properties = new Properties();
     try {
       InputStream inputStream = AutoBeanDefinitionRegistryPostProcessor.class.getClassLoader()
-          .getResourceAsStream("application.properties");
+          .getResourceAsStream("sky-graphdb.properties");
       properties.load(inputStream);
     } catch (Exception e) {
       throw new RuntimeException("load properties error!");
@@ -37,7 +37,7 @@ public class AutoBeanDefinitionRegistryPostProcessor implements
 
     for (String s : tableName) {
       BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder
-          .genericBeanDefinition(MySqlGraphDaoImpl.class);
+          .genericBeanDefinition(GraphDaoImpl.class);
       beanDefinitionBuilder.addPropertyValue("tableName", s);
       BeanDefinition beanDefinition = beanDefinitionBuilder.getBeanDefinition();
       registry.registerBeanDefinition(StringUtils3.underline2Camel(s, true) + "GraphDao",
@@ -46,14 +46,14 @@ public class AutoBeanDefinitionRegistryPostProcessor implements
 /*
     //构造bean定义
     BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder
-        .genericBeanDefinition(MySqlGraphDaoImpl.class);
+        .genericBeanDefinition(GraphDaoImpl.class);
     beanDefinitionBuilder.addPropertyValue("tableName", "user_channel");
     BeanDefinition beanDefinition = beanDefinitionBuilder.getBeanDefinition();
     registry.registerBeanDefinition("userChannelGraphDao", beanDefinition);
     //===========>
     //构造bean定义
     BeanDefinitionBuilder beanDefinitionBuilder2 = BeanDefinitionBuilder
-        .genericBeanDefinition(MySqlGraphDaoImpl.class);
+        .genericBeanDefinition(GraphDaoImpl.class);
 
     beanDefinitionBuilder2.addPropertyValue("tableName", "theme_channel");
     BeanDefinition beanDefinition2 = beanDefinitionBuilder2.getBeanDefinition();

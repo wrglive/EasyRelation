@@ -11,7 +11,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class MySqlGraphDaoImpl implements MySqlGraphDao {
+public class GraphDaoImpl implements GraphDao {
 
   private String tableName;
 

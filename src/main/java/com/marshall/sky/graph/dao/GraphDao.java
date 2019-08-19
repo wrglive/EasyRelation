@@ -5,7 +5,7 @@ import com.marshall.sky.graph.model.RelationDTO;
 import java.util.Collection;
 import java.util.List;
 
-public interface MySqlGraphDao {
+public interface GraphDao {
 
   boolean insert(RelationDTO relationDTO);
 
