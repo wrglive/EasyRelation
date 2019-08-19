@@ -22,7 +22,7 @@ SET FOREIGN_KEY_CHECKS = 1;
    
 ### 用法
 表结构请用统一的, 表名  left_right_relation   
-配置中的 表名  left_right   
+`sky-graphdb.properties` 配置文件 配置 `prefixTableName` "["a","b"]"     
 beanName  leftRightGraphDao   
 ### 后续更新
 1.考虑在测试环境 动态创建关系表, 从配置文件中读取相应信息, 避免表结构不统一造成的 bug 。    
