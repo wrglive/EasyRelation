@@ -2,6 +2,7 @@ package com.marshall.sky.graph.init;
 
 import com.alibaba.fastjson.JSONObject;
 import com.marshall.sky.graph.dao.GraphDaoImpl;
+import com.marshall.sky.graph.model.MySQLBean;
 import com.marshall.sky.graph.util.StringUtils3;
 import java.io.InputStream;
 import java.util.List;
@@ -18,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
  * @author : livE
  */
 @Configuration
-public class AutoBeanDefinitionRegistryPostProcessor implements
+public class GraphBeanDefinitionRegistryPostProcessor implements
     BeanDefinitionRegistryPostProcessor {
 
   @Override
@@ -26,12 +27,16 @@ public class AutoBeanDefinitionRegistryPostProcessor implements
       throws BeansException {
     Properties properties = new Properties();
     try {
-      InputStream inputStream = AutoBeanDefinitionRegistryPostProcessor.class.getClassLoader()
+      InputStream inputStream = GraphBeanDefinitionRegistryPostProcessor.class.getClassLoader()
           .getResourceAsStream("sky-graphdb.properties");
       properties.load(inputStream);
     } catch (Exception e) {
-      throw new RuntimeException("load properties error!");
+      throw new RuntimeException("load sky-graphdb.properties error!");
     }
+    MySQLBean mySQLBean = MySQLBean
+        .newInstance(properties.getProperty("username"), properties.getProperty("password"),
+            properties.getProperty("jdbcDriver"), properties.getProperty("jdbcUrl"));
+
     String value = properties.getProperty("prefixTableName", "[]");
     List<String> tableName = JSONObject.parseArray(value, String.class);
 
@@ -42,24 +47,12 @@ public class AutoBeanDefinitionRegistryPostProcessor implements
       BeanDefinition beanDefinition = beanDefinitionBuilder.getBeanDefinition();
       registry.registerBeanDefinition(StringUtils3.underline2Camel(s, true) + "GraphDao",
           beanDefinition);
+      String createSQL = InitHandle.buildCreateSQL(s);
+      InitTableJDBCHandle initTableJDBCHandle = new InitTableJDBCHandle(createSQL, mySQLBean);
+      initTableJDBCHandle.execute();
     }
-/*
-    //构造bean定义
-    BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder
-        .genericBeanDefinition(GraphDaoImpl.class);
-    beanDefinitionBuilder.addPropertyValue("tableName", "user_channel");
-    BeanDefinition beanDefinition = beanDefinitionBuilder.getBeanDefinition();
-    registry.registerBeanDefinition("userChannelGraphDao", beanDefinition);
-    //===========>
-    //构造bean定义
-    BeanDefinitionBuilder beanDefinitionBuilder2 = BeanDefinitionBuilder
-        .genericBeanDefinition(GraphDaoImpl.class);
-
-    beanDefinitionBuilder2.addPropertyValue("tableName", "theme_channel");
-    BeanDefinition beanDefinition2 = beanDefinitionBuilder2.getBeanDefinition();
-    registry.registerBeanDefinition("themeChannelGraphDao", beanDefinition2);*/
-
   }
+
 
   @Override
   public void postProcessBeanFactory(ConfigurableListableBeanFactory factory)
