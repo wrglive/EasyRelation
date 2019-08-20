@@ -2,6 +2,7 @@ package com.marshall.sky.graph.dao;
 
 import com.marshall.sky.graph.constant.SQLConstant;
 import com.marshall.sky.graph.model.RelationDTO;
+import com.marshall.sky.graph.model.StateEnum;
 import com.marshall.sky.graph.util.CheckNullUtil;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -106,23 +107,27 @@ public class GraphProvider extends SQLConstant {
     return sql.toString();
   }
 
-  protected static String listByLeftId(long leftId, String tableName, int page, int count) {
+  protected static String listByLeftId(long leftId, StateEnum state, String tableName, int page, int count) {
     StringBuilder sql = buildSelectSQL(tableName);
 
     sql.append(WHERE)
         .append(" left_id = ")
-        .append(leftId)
-        .append(LIMIT)
-        .append(getLimit(page, count));
+        .append(leftId);
+      if (state != null){
+          sql.append(" state = ").append(state.getIndex());
+      }
+
+      sql.append(LIMIT)
+          .append(getLimit(page, count));
 
     return sql.toString();
   }
 
-  protected static String listByLeftIdAndRightIds(Long leftId, String tableName,
+  protected static String listByLeftIdAndRightIds(Long leftId, StateEnum state, String tableName,
       Collection<Long> rightIds, Integer page,
       Integer count) {
     if (rightIds == null || rightIds.size() == 0) {
-      return listByLeftId(leftId, tableName, page, count);
+      return listByLeftId(leftId, state, tableName, page, count);
     }
 
     StringBuilder sql = buildSelectSQL(tableName);
@@ -131,8 +136,12 @@ public class GraphProvider extends SQLConstant {
         .append(leftId)
         .append(AND)
         .append(" right_id IN ")
-        .append(getInSQL(rightIds))
-        .append(LIMIT)
+        .append(getInSQL(rightIds));
+    if (state != null){
+      sql.append(" state = ").append(state.getIndex());
+    }
+
+    sql.append(LIMIT)
         .append(getLimit(page, count));
 
     return sql.toString();

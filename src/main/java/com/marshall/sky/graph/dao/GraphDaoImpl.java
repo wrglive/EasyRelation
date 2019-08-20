@@ -3,6 +3,7 @@ package com.marshall.sky.graph.dao;
 import com.marshall.sky.graph.dao.mapper.RelationMapper;
 import com.marshall.sky.graph.model.Relation;
 import com.marshall.sky.graph.model.RelationDTO;
+import com.marshall.sky.graph.model.StateEnum;
 import com.marshall.sky.graph.util.CheckNullUtil;
 import com.marshall.sky.graph.util.DefaultPageUtil;
 import java.util.ArrayList;
@@ -72,14 +73,14 @@ public class GraphDaoImpl implements GraphDao {
   }
 
   @Override
-  public List<Relation> listByLeftId(Long leftId, Integer page, Integer count) {
+  public List<Relation> listByLeftId(Long leftId, StateEnum state, Integer page, Integer count) {
     if (leftId == null) {
       return new ArrayList<>();
     }
 
     page = DefaultPageUtil.getPageOrDefault(page);
     count = DefaultPageUtil.getCountOrDefault(count);
-    String sql = GraphProvider.listByLeftId(leftId, tableName, page, count);
+    String sql = GraphProvider.listByLeftId(leftId, state, tableName, page, count);
     System.out.println(sql);
 
     return relationMapper.select(sql);
@@ -87,17 +88,17 @@ public class GraphDaoImpl implements GraphDao {
 
   @Override
   public List<Relation> listByLeftIdAndRightIds(Long leftId,
-      Collection<Long> rightIds, Integer page,
+      Collection<Long> rightIds, StateEnum state, Integer page,
       Integer count) {
     if (leftId == null) {
       return new ArrayList<>();
     }
     if (rightIds == null || rightIds.size() == 0) {
-      return listByLeftId(leftId, page, count);
+      return listByLeftId(leftId, state, page, count);
     }
     page = DefaultPageUtil.getPageOrDefault(page);
     count = DefaultPageUtil.getCountOrDefault(count);
-    String sql = GraphProvider.listByLeftIdAndRightIds(leftId, tableName, rightIds, page, count);
+    String sql = GraphProvider.listByLeftIdAndRightIds(leftId, state, tableName, rightIds, page, count);
     System.out.println(sql);
     return relationMapper.select(sql);
   }
