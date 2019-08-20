@@ -1,7 +1,7 @@
 # graphdb
 ## 1.0
 ### 1.0.2更新
-现在可以配置sky-graphdb.properties配置文件进行数据库表的自动生成，规则为user_feed 生成的表名为user_feed_relation beanName: userFeedRelation         
+现在可以配置sky-graphdb.properties配置文件进行数据库表的自动生成，规则为user_feed 生成的表名为user_feed_relation beanName: userFeedGraphDao         
 ### 特色
 以往关系表的sql, 以及业务代码都是大量重复代码, 每次都得创建一系列的方法, 体验很差   
 现在你可以通过注解去注入不同的关系表来操作相应的关系表.
