@@ -23,4 +23,6 @@ public class RelationDTO {
   public void setRightId(Long rightId) {
     this.rightId = rightId;
   }
+
+
 }
