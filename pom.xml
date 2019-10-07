@@ -39,7 +39,7 @@
 	</dependencies>
 	<groupId>com.marshall.sky</groupId>
 	<artifactId>graphdb</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 	<name>sky-graph</name>
 	<description>sky graph</description>
 
