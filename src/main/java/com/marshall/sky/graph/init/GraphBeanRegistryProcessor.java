@@ -43,6 +43,9 @@ public class GraphBeanRegistryProcessor implements
           .genericBeanDefinition(GraphDaoImpl.class);
       beanDefinitionBuilder.addPropertyValue("tableName", s);
       BeanDefinition beanDefinition = beanDefinitionBuilder.getBeanDefinition();
+      //FIXME: 需要测试单例模式会不会对bean多态造成影响.
+      beanDefinition.setScope(BeanDefinition.SCOPE_SINGLETON);
+      beanDefinition.setAutowireCandidate(true);
       registry.registerBeanDefinition(StringUtils3.underline2Camel(s, true) + "GraphDao",
           beanDefinition);
       String createSQL = InitHandle.buildCreateSQL(s);

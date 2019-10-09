@@ -119,7 +119,6 @@ public class GraphProvider extends SQLConstant {
 
       sql.append(LIMIT)
           .append(getLimit(page, count));
-
     return sql.toString();
   }
 
