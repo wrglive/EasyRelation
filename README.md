@@ -1,16 +1,14 @@
-# graphdb
-## 1.0
-### 1.0.2更新
-现在可以配置sky-graphdb.properties配置文件进行数据库表的自动生成，规则为user_feed 生成的表名为user_feed_relation beanName: userFeedGraphDao         
+# graph-db
+
+### 更新
+1.0.3 现在将graph整合到spring的 yaml配置文件中, 数据源应用spring.datasource的数据源
+1.0.2 现在可以配置sky-graphdb.properties配置文件进行数据库表的自动生成，规则为user_feed 生成的表名为user_feed_relation beanName: userFeedGraphDao         
 ### 特色
-以往关系表的sql, 以及业务代码都是大量重复代码, 每次都得创建一系列的方法, 体验很差   
+    以往关系表的sql, 以及业务代码都是大量重复代码, 每次都得创建一系列的方法, 体验很差   
 现在你可以通过注解去注入不同的关系表来操作相应的关系表.
-### 表结构
-`已经不需要了, 目前全局自动生成table来强制达成一致性, 以后考虑只对测试环境生效。`
-   
 ### 用法
 1.请根据表结构创建表, 但是请改名 left_id, right_id对应 表名对应的左右两个表.  
-2.sky-graphdb.properties 配置文件 配置 prefixTableName "["user_channel","b"]"   
+2.yaml中 配置文件 配置 sky.graph.prefixTableNames: aaa,bbb,ccc   
 3.注入@resource(name = "userChannelGraphDao")
 4.GraphDao.java 是具体调用的方法.
 ### 后续更新
@@ -22,8 +20,7 @@
          
 3.现在对mybatis是强依赖， 以后可能考虑引入jdbcTemplate 来替换 mybatis, 但是目前没这个打算。              
 目前 初始化数据库表使用的jdbc原生完成的, 因为不想把一些方法暴露给外边。             
-        
-4.目前数据库还是用的yaml里的数据源, 以后考虑跟sky-garphdb里的配置源用一套。        
+             
 5.对table进行扩充， 目前字段只是最原始的字段，考虑加几个字段来给各个业务当冗余字段使用
        
 ### 长远计划
