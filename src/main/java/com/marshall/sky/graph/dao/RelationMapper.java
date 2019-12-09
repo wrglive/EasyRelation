@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RelationMapper {
+public final class RelationMapper {
 
     protected static final int execute(String sql) {
         try (final Connection connection = SqlPoolFactory.getPool().getConnection();
