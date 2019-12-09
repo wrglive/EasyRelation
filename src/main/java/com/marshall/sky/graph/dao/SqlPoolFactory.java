@@ -1,4 +1,4 @@
-package com.marshall.sky.graph.dao.mapper;
+package com.marshall.sky.graph.dao;
 
 import com.marshall.sky.graph.model.MySQLBean;
 import com.zaxxer.hikari.HikariConfig;

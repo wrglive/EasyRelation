@@ -1,4 +1,4 @@
-package com.marshall.sky.graph.dao.mapper;
+package com.marshall.sky.graph.dao;
 
 import com.marshall.sky.graph.model.Relation;
 
@@ -9,20 +9,20 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RelationMapperImpl implements RelationMapper {
+public class RelationMapper {
 
-    @Override
-    public int insert(String sql) {
-        return execute(sql);
+    protected static final int execute(String sql) {
+        try (final Connection connection = SqlPoolFactory.getPool().getConnection();
+             final Statement statement = connection.createStatement()) {
+            final boolean execute = statement.execute(sql);
+            return execute ? 1 : 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    @Override
-    public int remove(String sql) {
-        return execute(sql);
-    }
-
-    @Override
-    public List<Relation> select(String sql) {
+    protected static final List<Relation> select(String sql) {
         List<Relation> relations = new ArrayList<>();
         try (final Connection connection = SqlPoolFactory.getPool().getConnection();
              final Statement statement = connection.createStatement()) {
@@ -44,14 +44,4 @@ public class RelationMapperImpl implements RelationMapper {
         }
     }
 
-    private int execute(String sql) {
-        try (final Connection connection = SqlPoolFactory.getPool().getConnection();
-             final Statement statement = connection.createStatement()) {
-            final boolean execute = statement.execute(sql);
-            return execute ? 1 : 0;
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

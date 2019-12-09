@@ -1,23 +1,19 @@
 package com.marshall.sky.graph.dao;
 
-import com.marshall.sky.graph.dao.mapper.RelationMapper;
 import com.marshall.sky.graph.model.Relation;
 import com.marshall.sky.graph.model.RelationDTO;
 import com.marshall.sky.graph.model.StateEnum;
 import com.marshall.sky.graph.util.CheckNullUtil;
 import com.marshall.sky.graph.util.DefaultPageUtil;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class GraphDaoImpl implements GraphDao {
 
   private String tableName;
-
-  @Autowired
-  RelationMapper relationMapper;
 
   @Override
   public boolean insert(RelationDTO relationDTO) {
@@ -29,7 +25,7 @@ public class GraphDaoImpl implements GraphDao {
       return false;
     }
     System.out.println(sql);
-    return relationMapper.insert(sql) > 0;
+    return RelationMapper.execute(sql) > 0;
   }
 
   @Override
@@ -42,7 +38,7 @@ public class GraphDaoImpl implements GraphDao {
       return false;
     }
     System.out.println(sql);
-    return relationMapper.remove(sql) > 0;
+    return RelationMapper.execute(sql) > 0;
   }
 
   @Override
@@ -55,7 +51,7 @@ public class GraphDaoImpl implements GraphDao {
       return false;
     }
     System.out.println(sql);
-    return relationMapper.insert(sql) > 0;
+    return RelationMapper.execute(sql) > 0;
   }
 
   @Override
@@ -69,7 +65,7 @@ public class GraphDaoImpl implements GraphDao {
     }
     System.out.println(sql);
 
-    return relationMapper.remove(sql) > 0;
+    return RelationMapper.execute(sql) > 0;
   }
 
   @Override
@@ -83,7 +79,7 @@ public class GraphDaoImpl implements GraphDao {
     String sql = GraphProvider.listByLeftId(leftId, state, tableName, page, count);
     System.out.println(sql);
 
-    return relationMapper.select(sql);
+    return RelationMapper.select(sql);
   }
 
   @Override
@@ -100,7 +96,7 @@ public class GraphDaoImpl implements GraphDao {
     count = DefaultPageUtil.getCountOrDefault(count);
     String sql = GraphProvider.listByLeftIdAndRightIds(leftId, state, tableName, rightIds, page, count);
     System.out.println(sql);
-    return relationMapper.select(sql);
+    return RelationMapper.select(sql);
   }
 
   public void setTableName(String tableName) {
