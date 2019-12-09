@@ -9,7 +9,7 @@
 
 
 ### 用法
-1. 配置,基于springboot- application.yaml文件, 注意目前仅支持这种文件, 后续会考虑动态寻找spring boot的配置
+#### 配置,基于springboot- application.yaml文件, 注意目前仅支持这种文件, 后续会考虑动态寻找spring boot的配置
 ```
 sky:  
     graph:    
@@ -22,7 +22,7 @@ sky: 
       driver-class-name: com.mysql.cj.jdbc.Driver   
 ```
 
-2.注入使用即可
+#### 注入使用即可
 ```
 //注入的时候使用prefixTableNames的驼峰+GraphDao
 //例如 user_follow 对应 userFollowGraphDao
@@ -35,7 +35,7 @@ Lists.newArrayList(toUserId), StateEnum.ONLINE, 0, 1);
 
 ```
 
-3.目前的API如下
+#### 目前的API如下
 
 ```
 public interface GraphDao {
@@ -56,6 +56,19 @@ public interface GraphDao {
 }
 ```
 
+#### 表结构
+```
+CREATE TABLE `like_pet_relation` (
+  `left_id` bigint(20) NOT NULL,
+  `right_id` bigint(20) NOT NULL,
+  `create_time` bigint(13) NOT NULL,
+  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `state` tinyint(1) NOT NULL,
+  `ext_params` varchar(255) DEFAULT NULL,
+  UNIQUE KEY `ux_left_right` (`left_id`,`right_id`) USING BTREE,
+  KEY `idx_right_id` (`right_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;
+```
 
 ### 后续更新
                   
