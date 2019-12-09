@@ -1,30 +1,69 @@
-# graph-db
+## GraphDB
+
+### 简介
+为了简化关系表的存在, 以往关系表其实都是大同小异, 重复代码繁多, 冗余, 所以graphdb的开发就是为了偷懒, 本版基于spring boot开发.
 
 ### 更新
-1.0.3 现在将graph整合到spring的 yaml配置文件中, 数据源应用spring.datasource的数据源
+1.0.3 现在将graph整合到spring的 yaml配置文件中, 数据源应用spring.datasource的数据源  
 1.0.2 现在可以配置sky-graphdb.properties配置文件进行数据库表的自动生成，规则为user_feed 生成的表名为user_feed_relation beanName: userFeedGraphDao         
-### 特色
-    以往关系表的sql, 以及业务代码都是大量重复代码, 每次都得创建一系列的方法, 体验很差   
-现在你可以通过注解去注入不同的关系表来操作相应的关系表.
+
 ### 用法
-1.请根据表结构创建表, 但是请改名 left_id, right_id对应 表名对应的左右两个表.  
-2.yaml中 配置文件 配置 sky.graph.prefixTableNames: aaa,bbb,ccc   
-3.注入@resource(name = "userChannelGraphDao")
-4.GraphDao.java 是具体调用的方法.
+1. 配置,基于springboot- application.yaml文件, 注意目前仅支持这种文件, 后续会考虑动态寻找spring boot的配置
+```
+sky:  
+graph:    
+##表名前缀, 现在会动态创建表名为 like_pet_variety_graph的表
+prefixTableNames: like_pet_variety,like_pet,user_follow
+
+```
+
+2.注入使用即可
+```
+//注入的时候使用prefixTableNames的驼峰+GraphDao
+//例如 user_follow 对应 userFollowGraphDao
+@Resource(name = "userFollowGraphDao")
+private GraphDao userFollow;
+
+//具体api使用, 就跟正常调用方法一样
+List<Relation> relations = userFollow.listByLeftIdAndRightIds(fromUserId, 
+Lists.newArrayList(toUserId), StateEnum.ONLINE, 0, 1);
+
+```
+
+3.提供一下api吧
+
+```
+public interface GraphDao {
+
+  boolean insert(RelationDTO relationDTO);
+
+  boolean remove(RelationDTO relationDTO);
+
+  boolean batchInsert(Collection<RelationDTO> relationDTOCollection);
+
+  boolean batchRemove(Collection<RelationDTO> relationDTOCollection);
+
+  List<Relation> listByLeftId(Long leftId, StateEnum state, Integer page, Integer count);
+
+  List<Relation> listByLeftIdAndRightIds(Long leftId, Collection<Long> rightIds, StateEnum state, Integer page,
+      Integer count);
+
+}
+```
+
+
 ### 后续更新
-1.考虑在测试环境 动态创建关系表, 从配置文件中读取相应信息, 避免表结构不统一造成的 bug 。        
-目前可以自动创建表, 创建到配置中的数据库, 后续考虑判断出是否是测试环境 只创建测试环境， 避免线上数据库污染.       
-           
-2.下一版会简化一些配置方式, 更换命名等。       
-已经完成。      
-         
-3.现在对mybatis是强依赖， 以后可能考虑引入jdbcTemplate 来替换 mybatis, 但是目前没这个打算。              
-目前 初始化数据库表使用的jdbc原生完成的, 因为不想把一些方法暴露给外边。             
+                  
+1.现在对mybatis是强依赖， 以后可能考虑引入jdbcTemplate 来替换 mybatis, 但是目前没这个打算。              
              
-5.对table进行扩充， 目前字段只是最原始的字段，考虑加几个字段来给各个业务当冗余字段使用
+2.对table进行扩充， 目前字段只是最原始的字段，考虑加几个字段来给各个业务当冗余字段使用
+
+3.目前任何环境都会自动创建, 后续考虑只有test环境动态创建表
+
+4.目前就仅支持 resource/application-xx.yaml 里配置参数, 以后考虑跟boot一样 会按顺序寻找 pro, yaml, yml 配置文件去动态读取配置.
        
 ### 长远计划
 1.mybatis被其他框架替代, 例如jdbcTemplate 或者jdbc原生， 亦或者自己搭建一个jdbc 框架。    
-2.如果用单独的数据源或者原生jdbc, 是否有性能问题, 这个值得考量.           
+2.如果用单独的数据源或者原生jdbc, 是否有性能问题, 这个值得斟酌.           
 
 
