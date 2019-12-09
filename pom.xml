@@ -8,11 +8,6 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<artifactId>mybatis-spring-boot-starter</artifactId>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<version>2.1.0</version>
-		</dependency>
-		<dependency>
 			<artifactId>commons-lang3</artifactId>
 			<groupId>org.apache.commons</groupId>
 		</dependency>
@@ -27,19 +22,19 @@
 			<version>1.2.54</version>
 		</dependency>
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>3.2.0</version>
+		</dependency>
 	</dependencies>
 	<groupId>com.marshall.sky</groupId>
 	<artifactId>graphdb</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<name>sky-graph</name>
 	<description>sky graph</description>
 

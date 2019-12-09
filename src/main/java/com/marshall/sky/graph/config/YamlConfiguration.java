@@ -6,11 +6,14 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.util.Properties;
 
-
 public class YamlConfiguration {
     private YamlConfiguration(){}
+    private static Properties PROPERTIES = null;
 
-    public static final Properties getProperties() {
+    public static final synchronized Properties getProperties() {
+        if (PROPERTIES != null) {
+            return PROPERTIES;
+        }
 
         YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
         yaml.setResources(new ClassPathResource("/application.yaml"));
@@ -22,6 +25,7 @@ public class YamlConfiguration {
         String path = "application-" + fileName + ".yaml";
         YamlPropertiesFactoryBean newYaml = new YamlPropertiesFactoryBean();
         newYaml.setResources(new ClassPathResource("/" + path));
+        YamlConfiguration.PROPERTIES = newYaml.getObject();
         return newYaml.getObject();
     }
 }
