@@ -24,7 +24,6 @@ public final class GraphDaoImpl implements GraphDao {
     if (StringUtils.isBlank(sql)) {
       return false;
     }
-    System.out.println(sql);
     return RelationMapper.execute(sql) > 0;
   }
 
@@ -37,7 +36,6 @@ public final class GraphDaoImpl implements GraphDao {
     if (StringUtils.isBlank(sql)) {
       return false;
     }
-    System.out.println(sql);
     return RelationMapper.execute(sql) > 0;
   }
 
@@ -50,7 +48,6 @@ public final class GraphDaoImpl implements GraphDao {
     if (StringUtils.isBlank(sql)) {
       return false;
     }
-    System.out.println(sql);
     return RelationMapper.execute(sql) > 0;
   }
 
@@ -63,7 +60,6 @@ public final class GraphDaoImpl implements GraphDao {
     if (StringUtils.isBlank(sql)) {
       return false;
     }
-    System.out.println(sql);
 
     return RelationMapper.execute(sql) > 0;
   }
@@ -77,7 +73,6 @@ public final class GraphDaoImpl implements GraphDao {
     page = DefaultPageUtil.getPageOrDefault(page);
     count = DefaultPageUtil.getCountOrDefault(count);
     String sql = GraphProvider.listByLeftId(leftId, state, tableName, page, count);
-    System.out.println(sql);
 
     return RelationMapper.select(sql);
   }
@@ -95,7 +90,6 @@ public final class GraphDaoImpl implements GraphDao {
     page = DefaultPageUtil.getPageOrDefault(page);
     count = DefaultPageUtil.getCountOrDefault(count);
     String sql = GraphProvider.listByLeftIdAndRightIds(leftId, state, tableName, rightIds, page, count);
-    System.out.println(sql);
     return RelationMapper.select(sql);
   }
 
