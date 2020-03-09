@@ -1,6 +1,6 @@
 package com.marshall.sky.graph.init;
 
-public class InitHandle {
+public class CreateTableSqlBuilder {
 
   private static final String CREATE = "CREATE TABLE IF NOT EXISTS `%s_relation`  (\n"
       + "  `left_id` bigint(20) NOT NULL,\n"

@@ -20,7 +20,7 @@ public final class GraphDaoImpl implements GraphDao {
     if (CheckNullUtil.hasNull(relationDTO)) {
       return false;
     }
-    String sql = GraphProvider.insert(relationDTO, tableName);
+    String sql = CrudSqlBuilder.insert(relationDTO, tableName);
     if (StringUtils.isBlank(sql)) {
       return false;
     }
@@ -32,7 +32,7 @@ public final class GraphDaoImpl implements GraphDao {
     if (CheckNullUtil.hasNull(relationDTO)) {
       return false;
     }
-    String sql = GraphProvider.remove(relationDTO, tableName);
+    String sql = CrudSqlBuilder.remove(relationDTO, tableName);
     if (StringUtils.isBlank(sql)) {
       return false;
     }
@@ -44,7 +44,7 @@ public final class GraphDaoImpl implements GraphDao {
     if (relationDTOCollection == null || relationDTOCollection.size() == 0) {
       return false;
     }
-    String sql = GraphProvider.batchInsert(relationDTOCollection, tableName);
+    String sql = CrudSqlBuilder.batchInsert(relationDTOCollection, tableName);
     if (StringUtils.isBlank(sql)) {
       return false;
     }
@@ -56,7 +56,7 @@ public final class GraphDaoImpl implements GraphDao {
     if (relationDTOCollection == null || relationDTOCollection.size() == 0) {
       return false;
     }
-    String sql = GraphProvider.batchRemove(relationDTOCollection, tableName);
+    String sql = CrudSqlBuilder.batchRemove(relationDTOCollection, tableName);
     if (StringUtils.isBlank(sql)) {
       return false;
     }
@@ -72,7 +72,7 @@ public final class GraphDaoImpl implements GraphDao {
 
     page = DefaultPageUtil.getPageOrDefault(page);
     count = DefaultPageUtil.getCountOrDefault(count);
-    String sql = GraphProvider.listByLeftId(leftId, state, tableName, page, count);
+    String sql = CrudSqlBuilder.listByLeftId(leftId, state, tableName, page, count);
 
     return RelationMapper.select(sql);
   }
@@ -89,7 +89,8 @@ public final class GraphDaoImpl implements GraphDao {
     }
     page = DefaultPageUtil.getPageOrDefault(page);
     count = DefaultPageUtil.getCountOrDefault(count);
-    String sql = GraphProvider.listByLeftIdAndRightIds(leftId, state, tableName, rightIds, page, count);
+    String sql = CrudSqlBuilder
+        .listByLeftIdAndRightIds(leftId, state, tableName, rightIds, page, count);
     return RelationMapper.select(sql);
   }
 

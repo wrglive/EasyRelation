@@ -12,7 +12,7 @@ import org.springframework.lang.NonNull;
 /**
  * @author : livE
  */
-public class GraphProvider extends SQLConstant {
+public class CrudSqlBuilder extends SQLConstant {
 
 
   protected static String insert(RelationDTO dto, String tableName) {

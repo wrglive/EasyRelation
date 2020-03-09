@@ -1,17 +1,29 @@
 package com.marshall.sky.graph.dao;
 
-import com.marshall.sky.graph.model.MySQLBean;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 /**
  * pool
  */
-public class SqlPoolFactory {
-    protected SqlPoolFactory(){}
+@Configuration
+public class SqlPoolFactory implements EnvironmentAware {
+
+    protected static Environment environment;
     private static HikariDataSource hikariDataSource = null;
 
-    protected static final synchronized HikariDataSource getPool(){
+    protected SqlPoolFactory() {
+    }
+
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
+
+    protected static final synchronized HikariDataSource getPool() {
         if (hikariDataSource != null) {
             return hikariDataSource;
         }
@@ -20,14 +32,13 @@ public class SqlPoolFactory {
     }
 
     private static void init() {
-        final MySQLBean mySQLBean = MySQLBean.getInstanceByYaml();
 
         //配置文件
         HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl(mySQLBean.getJdbcUrl());
-        hikariConfig.setDriverClassName(mySQLBean.getJdbcDriver());
-        hikariConfig.setUsername(mySQLBean.getUsername());
-        hikariConfig.setPassword(mySQLBean.getPassword());
+        hikariConfig.setJdbcUrl(environment.getProperty("sky.graph.datasource.url"));
+        hikariConfig.setDriverClassName(environment.getProperty("sky.graph.datasource.driver-class-name"));
+        hikariConfig.setUsername(environment.getProperty("sky.graph.datasource.username"));
+        hikariConfig.setPassword(environment.getProperty("sky.graph.datasource.password"));
         hikariConfig.setMaximumPoolSize(20);
 
         hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
