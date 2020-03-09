@@ -4,6 +4,7 @@
     为了简化关系表而设计的, 所有的设计都是为了更好的偷懒...
 
 ### 更新
+**1.0.5** 现在graph彻底整合到sprig配置文件中, 不论配置到application还是bootstrap中都会正确加载
 **1.0.4** 现在彻底抛弃mybatis 使用 **原生的jdbc + HikariCP** 连接池    
 **1.0.3** 现在将graph整合到spring的 yaml配置文件中,
 
@@ -76,7 +77,7 @@ CREATE TABLE `like_pet_relation` (
 * [x] 现在对mybatis是强依赖， 以后可能考虑引入jdbcTemplate 来替换 mybatis             
 * [ ] 对table进行扩充， 目前字段只是最原始的字段，考虑加几个字段来给各个业务当冗余字段使用
 * [ ] 目前任何环境都会自动创建, 后续考虑只有test环境动态创建表
-* [ ] 目前就仅支持 resource/application-xx.yaml 里配置参数, 以后考虑跟boot一样 会按顺序寻找 pro, yaml, yml 配置文件去动态读取配置.
+* [x] 目前就仅支持 resource/application-xx.yaml 里配置参数, 以后考虑跟boot一样 会按顺序寻找 pro, yaml, yml 配置文件去动态读取配置.
    
 
 ### 长远计划
