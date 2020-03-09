@@ -1,7 +1,7 @@
 package com.marshall.sky.graph.init;
 
 import com.marshall.sky.graph.dao.GraphDaoImpl;
-import com.marshall.sky.graph.dao.SqlPoolFactory;
+import com.marshall.sky.graph.dao.JdbcPoolFactory;
 import com.marshall.sky.graph.util.StringUtils3;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -19,7 +19,7 @@ import java.sql.Statement;
  * @author : livE
  */
 @Configuration
-public class GraphBeanRegistryProcessor extends SqlPoolFactory implements
+public class GraphBeanRegistryProcessor extends JdbcPoolFactory implements
     BeanDefinitionRegistryPostProcessor {
   @Override
   public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry)

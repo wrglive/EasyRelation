@@ -12,7 +12,7 @@ import java.util.List;
 public final class RelationMapper {
 
     protected static final int execute(String sql) {
-        try (final Connection connection = SqlPoolFactory.getPool().getConnection();
+        try (final Connection connection = JdbcPoolFactory.getPool().getConnection();
              final Statement statement = connection.createStatement()) {
             final boolean execute = statement.execute(sql);
             return execute ? 1 : 0;
@@ -24,7 +24,7 @@ public final class RelationMapper {
 
     protected static final List<Relation> select(String sql) {
         List<Relation> relations = new ArrayList<>();
-        try (final Connection connection = SqlPoolFactory.getPool().getConnection();
+        try (final Connection connection = JdbcPoolFactory.getPool().getConnection();
              final Statement statement = connection.createStatement()) {
             final ResultSet resultSet = statement.executeQuery(sql);
 

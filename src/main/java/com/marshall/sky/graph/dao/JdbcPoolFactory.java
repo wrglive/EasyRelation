@@ -10,12 +10,12 @@ import org.springframework.core.env.Environment;
  * pool
  */
 @Configuration
-public class SqlPoolFactory implements EnvironmentAware {
+public class JdbcPoolFactory implements EnvironmentAware {
 
     protected static Environment environment;
     private static HikariDataSource hikariDataSource = null;
 
-    protected SqlPoolFactory() {
+    protected JdbcPoolFactory() {
     }
 
     @Override
@@ -27,7 +27,7 @@ public class SqlPoolFactory implements EnvironmentAware {
         if (hikariDataSource != null) {
             return hikariDataSource;
         }
-        SqlPoolFactory.init();
+        JdbcPoolFactory.init();
         return hikariDataSource;
     }
 
