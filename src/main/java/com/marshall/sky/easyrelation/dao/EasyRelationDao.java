@@ -1,12 +1,12 @@
-package com.marshall.sky.graph.dao;
+package com.marshall.sky.easyrelation.dao;
 
-import com.marshall.sky.graph.model.Relation;
-import com.marshall.sky.graph.model.RelationDTO;
-import com.marshall.sky.graph.model.StateEnum;
+import com.marshall.sky.easyrelation.model.Relation;
+import com.marshall.sky.easyrelation.model.RelationDTO;
+import com.marshall.sky.easyrelation.model.StateEnum;
 import java.util.Collection;
 import java.util.List;
 
-public interface GraphDao {
+public interface EasyRelationDao {
 
   boolean insert(RelationDTO relationDTO);
 

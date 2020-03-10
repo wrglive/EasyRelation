@@ -33,10 +33,10 @@
 		</dependency>
 	</dependencies>
 	<groupId>com.marshall.sky</groupId>
-	<artifactId>graphdb</artifactId>
+	<artifactId>easyrelation</artifactId>
 	<version>1.0.4</version>
-	<name>sky-graph</name>
-	<description>sky graph</description>
+	<name>easy-relation</name>
+	<description>easy-relation</description>
 
 	<properties>
 		<java.version>1.8</java.version>

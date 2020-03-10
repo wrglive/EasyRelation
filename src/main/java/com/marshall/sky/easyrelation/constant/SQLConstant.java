@@ -1,4 +1,4 @@
-package com.marshall.sky.graph.constant;
+package com.marshall.sky.easyrelation.constant;
 
 public class SQLConstant {
 

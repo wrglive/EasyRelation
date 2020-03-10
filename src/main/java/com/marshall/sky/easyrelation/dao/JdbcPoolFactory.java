@@ -1,4 +1,4 @@
-package com.marshall.sky.graph.dao;
+package com.marshall.sky.easyrelation.dao;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -35,10 +35,10 @@ public class JdbcPoolFactory implements EnvironmentAware {
 
         //配置文件
         HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl(environment.getProperty("sky.graph.datasource.url"));
-        hikariConfig.setDriverClassName(environment.getProperty("sky.graph.datasource.driver-class-name"));
-        hikariConfig.setUsername(environment.getProperty("sky.graph.datasource.username"));
-        hikariConfig.setPassword(environment.getProperty("sky.graph.datasource.password"));
+        hikariConfig.setJdbcUrl(environment.getProperty("sky.easy-relation.datasource.url"));
+        hikariConfig.setDriverClassName(environment.getProperty("sky.easy-relation.datasource.driver-class-name"));
+        hikariConfig.setUsername(environment.getProperty("sky.easy-relation.datasource.username"));
+        hikariConfig.setPassword(environment.getProperty("sky.easy-relation.datasource.password"));
         hikariConfig.setMaximumPoolSize(20);
 
         hikariConfig.addDataSourceProperty("cachePrepStmts", "true");

@@ -1,4 +1,4 @@
-package com.marshall.sky.graph.model;
+package com.marshall.sky.easyrelation.model;
 
 import java.util.Date;
 

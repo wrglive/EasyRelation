@@ -1,4 +1,4 @@
-package com.marshall.sky.graph.util;
+package com.marshall.sky.easyrelation.util;
 
 /**
  * @author : livE

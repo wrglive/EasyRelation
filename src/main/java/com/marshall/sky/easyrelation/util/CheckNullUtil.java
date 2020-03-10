@@ -1,6 +1,6 @@
-package com.marshall.sky.graph.util;
+package com.marshall.sky.easyrelation.util;
 
-import com.marshall.sky.graph.model.RelationDTO;
+import com.marshall.sky.easyrelation.model.RelationDTO;
 
 /**
  * @author : livE

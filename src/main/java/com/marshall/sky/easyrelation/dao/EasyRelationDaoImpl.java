@@ -1,17 +1,17 @@
-package com.marshall.sky.graph.dao;
+package com.marshall.sky.easyrelation.dao;
 
-import com.marshall.sky.graph.model.Relation;
-import com.marshall.sky.graph.model.RelationDTO;
-import com.marshall.sky.graph.model.StateEnum;
-import com.marshall.sky.graph.util.CheckNullUtil;
-import com.marshall.sky.graph.util.DefaultPageUtil;
+import com.marshall.sky.easyrelation.model.Relation;
+import com.marshall.sky.easyrelation.model.RelationDTO;
+import com.marshall.sky.easyrelation.model.StateEnum;
+import com.marshall.sky.easyrelation.util.CheckNullUtil;
+import com.marshall.sky.easyrelation.util.DefaultPageUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public final class GraphDaoImpl implements GraphDao {
+public final class EasyRelationDaoImpl implements EasyRelationDao {
 
   private String tableName;
 

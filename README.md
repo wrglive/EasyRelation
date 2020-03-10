@@ -1,45 +1,40 @@
-## GraphDB
+## EasyRelation
 
 ### 简介
-    为了简化关系表而设计的, 所有的设计都是为了更好的偷懒...
+    顾名思义, 简化关系表的存在, 试用与个人开发者在设计关注， 点赞, 帖子话题等各种关系的场景。    
+             
+### 特点
+1.一键式配置关系表名称， 自动生成关系表结构， 告别重复的crud, 详见快速开始        
+2.整合到springboot的配置文件中, 不需要再冗余其他配置文件            
 
-### 更新
-**1.0.5** 现在graph彻底整合到sprig配置文件中, 不论配置到application还是bootstrap中都会正确加载
-**1.0.4** 现在彻底抛弃mybatis 使用 **原生的jdbc + HikariCP** 连接池    
-**1.0.3** 现在将graph整合到spring的 yaml配置文件中,
-
-
-### 用法
-#### 配置,基于springboot- application.yaml文件, 注意目前仅支持这种文件, 后续会考虑动态寻找spring boot的配置
+### 快速开始    
+#### 配置文件       
 ```
-sky:  
-    graph:    
-        ##表名前缀, 现在会动态创建表名为 like_pet_variety_relation的表    
-        prefixTableNames: like_pet_variety,like_pet,user_follow    
-    datasource:    
-      url: jdbc:mysql://12345:3306/sky-graph?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true    
-      username: root    
-      password: root\    
-      driver-class-name: com.mysql.cj.jdbc.Driver   
+sky:       
+  easy-relation: 
+    #表名生成规则， ex: like_pet_variety_relation          
+    prefixTableNames: like_pet_variety,like_pet,follow_user,user_follow
+    datasource:
+      url: jdbc:mysql://122222:3306/sky?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true
+      username: root
+      password: root
+      driver-class-name: com.mysql.cj.jdbc.Driver
 ```
 
-#### 注入使用即可
+#### 代码
 ```
-//注入的时候使用prefixTableNames的驼峰+GraphDao
-//例如 user_follow 对应 userFollowGraphDao
-@Resource(name = "userFollowGraphDao")
-private GraphDao userFollow;
+@Resource(name = "user_follow") 
+private EasyRelationDao user_follow;
 
-//具体api使用, 就跟正常调用方法一样
-List<Relation> relations = userFollow.listByLeftIdAndRightIds(fromUserId, 
-Lists.newArrayList(toUserId), StateEnum.ONLINE, 0, 1);
+//查询关注列表fromUserId关注列表
+List<Relation> followUidList = userFollow.listByLeftIdAndRightIds(fromUserId, StateEnum.ONLINE, 0, 1);
 
 ```
 
 #### 目前的API如下
 
 ```
-public interface GraphDao {
+public interface EasyRelationDao {
 
   boolean insert(RelationDTO relationDTO);
 
@@ -71,19 +66,12 @@ CREATE TABLE `like_pet_relation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;
 ```
 
-### 后续更新
-                  
-
+### 未来计划
 * [x] 现在对mybatis是强依赖， 以后可能考虑引入jdbcTemplate 来替换 mybatis             
 * [ ] 对table进行扩充， 目前字段只是最原始的字段，考虑加几个字段来给各个业务当冗余字段使用
 * [ ] 目前任何环境都会自动创建, 后续考虑只有test环境动态创建表
-* [x] 目前就仅支持 resource/application-xx.yaml 里配置参数, 以后考虑跟boot一样 会按顺序寻找 pro, yaml, yml 配置文件去动态读取配置.
-   
-
-### 长远计划
-1.mybatis被其他框架替代, 例如jdbcTemplate 或者jdbc原生， 亦或者自己搭建一个jdbc 框架。    
-**解决方案**: 使用jdbc + HikariCP 来实现, 尽量规避三方库     
-2.多数据源配置.      
-3.高并发下, 性能问题.    
+* [x] mybatis被其他框架替代, 例如jdbcTemplate 或者jdbc原生， 亦或者自己搭建一个jdbc 框架。    
+* [ ] 多数据源配置.      
+* [ ] 高并发下, 性能问题.    
 
 

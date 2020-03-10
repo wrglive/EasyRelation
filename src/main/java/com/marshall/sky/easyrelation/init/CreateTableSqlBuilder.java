@@ -1,4 +1,4 @@
-package com.marshall.sky.graph.init;
+package com.marshall.sky.easyrelation.init;
 
 public class CreateTableSqlBuilder {
 

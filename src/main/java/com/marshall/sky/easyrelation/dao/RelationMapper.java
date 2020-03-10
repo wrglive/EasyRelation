@@ -1,6 +1,6 @@
-package com.marshall.sky.graph.dao;
+package com.marshall.sky.easyrelation.dao;
 
-import com.marshall.sky.graph.model.Relation;
+import com.marshall.sky.easyrelation.model.Relation;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

@@ -1,9 +1,9 @@
-package com.marshall.sky.graph.dao;
+package com.marshall.sky.easyrelation.dao;
 
-import com.marshall.sky.graph.constant.SQLConstant;
-import com.marshall.sky.graph.model.RelationDTO;
-import com.marshall.sky.graph.model.StateEnum;
-import com.marshall.sky.graph.util.CheckNullUtil;
+import com.marshall.sky.easyrelation.constant.SQLConstant;
+import com.marshall.sky.easyrelation.model.RelationDTO;
+import com.marshall.sky.easyrelation.model.StateEnum;
+import com.marshall.sky.easyrelation.util.CheckNullUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
